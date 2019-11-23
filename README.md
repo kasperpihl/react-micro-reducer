@@ -9,7 +9,7 @@ useMicroReducer uses the standard useReducer under the hook 🎉
 ## Installation
 
 ```shell
-npm i react-action-reducer
+npm i react-micro-reducer
 ```
 
 ## Demo
