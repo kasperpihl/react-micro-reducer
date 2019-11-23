@@ -1,5 +1,10 @@
 import { useReducer } from "react";
 
+export type TProduceFunc = <State>(
+  currentState: State,
+  producer: (draftState: State) => void
+) => State;
+
 // utility type constructor - remove first element of the array/tuple
 type Tail<T extends any[]> = ((...args: T) => void) extends (
   head: any,
@@ -16,13 +21,22 @@ type TMicroReducer<State> = {
 // introduced generic R to allow proper infering
 export default function useMicroReducer<State, R extends TMicroReducer<State>>(
   actionReducers: R,
-  initialState?: State
+  initialState?: State,
+  producer?: TProduceFunc
 ) {
   const [state, _dispatch] = useReducer(
     (
       state: State,
       action: { type: keyof typeof actionReducers; payload: any[] }
-    ) => actionReducers[action.type](state, ...action.payload),
+    ) => {
+      const reducer = actionReducers[action.type];
+
+      if (producer) {
+        return producer(state, draft => reducer(draft, ...action.payload));
+      }
+
+      return reducer(state, ...action.payload);
+    },
     initialState
   );
 

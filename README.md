@@ -6,6 +6,8 @@ Split your reducer into micro reducers based on actions, and avoid having one la
 
 useMicroReducer uses the standard useReducer under the hook 🎉
 
+Ohh, and it supports Immer 🎂
+
 ## Installation
 
 ```shell
@@ -47,6 +49,31 @@ export default function App() {
 }
 ```
 
+## Usage with Immer
+
+Just pass the produce function as a third argument to useMicroReducer, and your state will be a draft object 💪
+
+```js
+import React from "react";
+import useMicroReducer from "react-micro-reducer";
+
+export default function App() {
+  const [state, dispatch] = useMicroReducer(
+    {
+      search: (draft, query: string) => {
+        // Draft is an immer draft object 🎉
+        draft.query = query;
+      }
+    },
+    {
+      query: ""
+    },
+    produce
+  );
+  // Return render stuff
+}
+```
+
 ## Credits
 
-Thanks to [Maciej Sikora](https://stackoverflow.com/a/59002901/1168927) for helping with the type definitions! 🙌
+Thanks to [Maciej Sikora](https://stackoverflow.com/a/59002901/1168927) for helping with the type definitions, and to [Jeppe Hasseris](https://github.com/cenobitedk) for helping with the naming/API! 🙌
