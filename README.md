@@ -63,4 +63,4 @@ Now the state in your all your micro reducers will be an immer draft state 💪
 
 ## Credits
 
-Thanks to [Maciej Sikora](https://stackoverflow.com/a/59002901/1168927) for helping with the type definitions, and to [jhass](https://github.com/cenobitedk) for helping with the naming/API! 🙌
+Thanks to [Maciej Sikora](https://stackoverflow.com/a/59002901/1168927) for helping with the type definitions, and to [Jeppe Hasseris](https://github.com/cenobitedk) for helping with the naming/API! 🙌
