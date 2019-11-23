@@ -70,7 +70,7 @@ export default function App() {
     },
     produce
   );
-  // Return logic stuff
+  // Return render stuff
 }
 ```
 
