@@ -1,5 +1,5 @@
 {
-  "name": "use-action-reducer",
+  "name": "react-micro-reducer",
   "version": "1.0.0",
   "description": "A React reducer hook, with a \"micro\"-reducer style, made for a Typescript world 💙",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kasperpihl/use-action-reducer.git"
+    "url": "git+https://github.com/kasperpihl/react-micro-reducer.git"
   },
   "keywords": [
     "Reducer",
@@ -20,9 +20,9 @@
   "author": "Kasper Pihl Tornoe",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kasperpihl/use-action-reducer/issues"
+    "url": "https://github.com/kasperpihl/react-micro-reducer/issues"
   },
-  "homepage": "https://github.com/kasperpihl/use-action-reducer#readme",
+  "homepage": "https://github.com/kasperpihl/react-micro-reducer#readme",
   "devDependencies": {
     "@types/react": "^16.9.12",
     "react": "^16.12.0",

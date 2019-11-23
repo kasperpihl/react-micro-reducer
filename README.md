@@ -1,20 +1,20 @@
-# useActionReducer
+# react-micro-reducer
 
 A React reducer hook, with a "micro"-reducer style, made for a Typescript world 💙
 
-Split your reducer into actions, and avoid having one large reducer function with a switch statement
+Split your reducer into micro reducers based on actions, and avoid having one large reducer function with a switch statement
 
-useActionReducer uses the standard useReducer under the hook 🎉
+useMicroReducer uses the standard useReducer under the hook 🎉
 
 ## Installation
 
 ```shell
-npm i use-action-reducer
+npm i react-action-reducer
 ```
 
 ## Demo
 
-I've made a Codesandbox to play around with useActionReducer
+I've made a Codesandbox to play around with useMicroReducer
 
 - [Codesandbox](https://codesandbox.io/s/pedantic-sky-6se4w)
 
@@ -22,10 +22,10 @@ I've made a Codesandbox to play around with useActionReducer
 
 ```js
 import React from "react";
-import useActionReducer from "use-action-reducer";
+import useMicroReducer from "react-micro-reducer";
 
 export default function App() {
-  const [state, dispatch] = useActionReducer(
+  const [state, dispatch] = useMicroReducer(
     {
       reset: () => 0,
       increment: (state, value: number) => state + value,
