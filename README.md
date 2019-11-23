@@ -4,7 +4,7 @@ A small extension for useReducer to make static actions
 
 ## Installation
 
-```js
+```shell
 npm i use-action-reducer
 ```
 
