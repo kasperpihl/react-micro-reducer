@@ -51,15 +51,28 @@ export default function App() {
 
 ## Usage with Immer
 
-Somewhere globally like index.ts or App.ts
+Just pass the produce function as a third argument to useMicroReducer, and your state will be a draft object 💪
 
 ```js
-import produce from "immer";
-import { setProducer } from "react-micro-reducer";
-setProducer(produce);
-```
+import React from "react";
+import useMicroReducer from "react-micro-reducer";
 
-Now the state in your all your micro reducers will be an immer draft state 💪
+export default function App() {
+  const [state, dispatch] = useMicroReducer(
+    {
+      search: (draft, query: string) => {
+        // Draft is an immer draft object 🎉
+        draft.query = query;
+      }
+    },
+    {
+      query: ""
+    },
+    produce
+  );
+  // Return logic stuff
+}
+```
 
 ## Credits
 

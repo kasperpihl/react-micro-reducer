@@ -5,11 +5,6 @@ export type TProduceFunc = <State>(
   producer: (draftState: State) => void
 ) => State;
 
-let producer: TProduceFunc = null;
-export function setProducer(produce: TProduceFunc) {
-  producer = produce;
-}
-
 // utility type constructor - remove first element of the array/tuple
 type Tail<T extends any[]> = ((...args: T) => void) extends (
   head: any,
@@ -26,7 +21,8 @@ type TMicroReducer<State> = {
 // introduced generic R to allow proper infering
 export default function useMicroReducer<State, R extends TMicroReducer<State>>(
   actionReducers: R,
-  initialState?: State
+  initialState?: State,
+  producer?: TProduceFunc
 ) {
   const [state, _dispatch] = useReducer(
     (
