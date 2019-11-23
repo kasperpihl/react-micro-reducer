@@ -1,5 +1,15 @@
 import { useReducer } from "react";
 
+export type TProduceFunc = <State>(
+  currentState: State,
+  producer: (draftState: State) => void
+) => State;
+
+let producer: TProduceFunc = null;
+export function setProducer(produce: TProduceFunc) {
+  producer = produce;
+}
+
 // utility type constructor - remove first element of the array/tuple
 type Tail<T extends any[]> = ((...args: T) => void) extends (
   head: any,
@@ -22,7 +32,15 @@ export default function useMicroReducer<State, R extends TMicroReducer<State>>(
     (
       state: State,
       action: { type: keyof typeof actionReducers; payload: any[] }
-    ) => actionReducers[action.type](state, ...action.payload),
+    ) => {
+      const reducer = actionReducers[action.type];
+
+      if (producer) {
+        return producer(state, draft => reducer(draft, ...action.payload));
+      }
+
+      return reducer(state, ...action.payload);
+    },
     initialState
   );
 
