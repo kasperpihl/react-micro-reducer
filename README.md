@@ -6,6 +6,8 @@ Split your reducer into micro reducers based on actions, and avoid having one la
 
 useMicroReducer uses the standard useReducer under the hook 🎉
 
+Ohh, and it supports Immer 🎂
+
 ## Installation
 
 ```shell
@@ -47,6 +49,18 @@ export default function App() {
 }
 ```
 
+## Usage with Immer
+
+Somewhere globally like index.ts or App.ts
+
+```js
+import produce from "immer";
+import { setProducer } from "react-micro-reducer";
+setProducer(produce);
+```
+
+Now the state in your all your micro reducers will be an immer draft state 💪
+
 ## Credits
 
-Thanks to [Maciej Sikora](https://stackoverflow.com/a/59002901/1168927) for helping with the type definitions! 🙌
+Thanks to [Maciej Sikora](https://stackoverflow.com/a/59002901/1168927) for helping with the type definitions, and to [jhass](https://github.com/cenobitedk) for helping with the naming/API! 🙌
