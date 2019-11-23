@@ -1,7 +1,10 @@
 # useActionReducer
 
+Split your reducer into actions, and avoid having one large reducer function with a switch statement
+
 A React hook reducer made for a Typescript world 💙
-Avoid having one large reducer function with a switch statement, but split it into small action reducers.
+
+useActionReducer uses the standard useReducer under the hook 🎉
 
 ## Installation
 
@@ -11,7 +14,7 @@ npm i use-action-reducer
 
 ## Demo
 
-I've made a Codesandbox to play around with use-action-reducer
+I've made a Codesandbox to play around with useActionReducer
 
 - [Codesandbox](https://codesandbox.io/s/pedantic-sky-6se4w)
 
