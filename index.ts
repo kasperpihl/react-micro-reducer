@@ -13,7 +13,6 @@ type Tail<T extends any[]> = ((...args: T) => void) extends (
   ? U
   : never;
 
-// I removed second generic, not needed at this level
 type TMicroReducer<State> = {
   [key: string]: (state: State, ...args: any[]) => State;
 };
