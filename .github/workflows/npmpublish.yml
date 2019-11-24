@@ -1,11 +1,11 @@
-name: Node.js Package
+name: Publish
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
-  publish-npm:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+      - run: yarn install
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
