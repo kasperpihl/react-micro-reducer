@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prepack": "npm run build",
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "test": "jest"
   },
   "files": [
     "dist"
@@ -28,9 +29,15 @@
   },
   "homepage": "https://github.com/kasperpihl/react-micro-reducer#readme",
   "devDependencies": {
+    "@types/jest": "^24.0.23",
     "@types/react": "^16.9.12",
+    "@types/react-test-renderer": "^16.9.1",
+    "immer": "^5.0.0",
+    "jest": "^24.9.0",
     "react": "^16.12.0",
+    "react-test-renderer": "^16.12.0",
     "rimraf": "^3.0.0",
+    "ts-jest": "^24.2.0",
     "typescript": "^3.7.2"
   },
   "peerDependencies": {

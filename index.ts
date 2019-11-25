@@ -1,4 +1,8 @@
-import { useReducer } from "react";
+import { useReducer, useMemo } from "react";
+
+export type TMicroDispatch<R extends TMicroReducer<any, any>> = {
+  [Key in keyof R]: (...x: Tail<Parameters<R[Key]>>) => void;
+};
 
 export type TProduceFunc = <State>(
   currentState: State,
@@ -13,33 +17,28 @@ type Tail<T extends any[]> = ((...args: T) => void) extends (
   ? U
   : never;
 
-type TMicroReducer<State, ReturnType> = {
+type TMicroReducer<State, ReturnType = State> = {
   [key: string]: (state: State, ...args: any[]) => ReturnType;
 };
 type TMicroReducerReturn<
   State,
   ReturnType,
   R extends TMicroReducer<State, ReturnType>
-> = [
-  State,
-  {
-    [Key in keyof R]: (...x: Tail<Parameters<R[Key]>>) => ReturnType;
-  }
-];
+> = [State, TMicroDispatch<R>];
 
-function useMicroReducer<State, R extends TMicroReducer<State, State>>(
+export function useMicroReducer<State, R extends TMicroReducer<State, State>>(
   actionReducers: R,
   initialState?: State
 ): TMicroReducerReturn<State, State, R>;
 
-function useMicroReducer<State, R extends TMicroReducer<State, void>>(
+export function useMicroReducer<State, R extends TMicroReducer<State, void>>(
   actionReducers: R,
   initialState: State,
   producer: TProduceFunc
 ): TMicroReducerReturn<State, void, R>;
 
 // introduced generic R to allow proper infering
-function useMicroReducer(actionReducers, initialState, producer?): any {
+export function useMicroReducer(actionReducers, initialState, producer?): any {
   const [state, _dispatch] = useReducer((state, action) => {
     const reducer = actionReducers[action.type];
 
@@ -50,13 +49,16 @@ function useMicroReducer(actionReducers, initialState, producer?): any {
     return reducer(state, ...action.payload);
   }, initialState);
 
-  const dispatch: any = {};
+  const dispatch = useMemo(() => {
+    const dispatch: any = {};
 
-  for (let key in actionReducers) {
-    dispatch[key] = (...args: any[]) => _dispatch({ type: key, payload: args });
-  }
+    for (let key in actionReducers) {
+      dispatch[key] = (...args: any[]) =>
+        _dispatch({ type: key, payload: args });
+    }
+
+    return dispatch;
+  }, [_dispatch]);
 
   return [state, dispatch];
 }
-
-export default useMicroReducer;

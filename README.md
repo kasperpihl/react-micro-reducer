@@ -25,7 +25,7 @@ I've made a couple of Codesandboxes to play around with useMicroReducer
 
 ```js
 import React from "react";
-import useMicroReducer from "react-micro-reducer";
+import { useMicroReducer } from "react-micro-reducer";
 
 export default function App() {
   const [state, dispatch] = useMicroReducer(
@@ -56,7 +56,7 @@ Just pass the produce function as a third argument to useMicroReducer, and your 
 
 ```js
 import React from "react";
-import useMicroReducer from "react-micro-reducer";
+import { useMicroReducer } from "react-micro-reducer";
 import produce from "immer";
 
 export default function App() {
