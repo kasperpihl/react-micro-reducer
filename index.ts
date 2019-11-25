@@ -13,41 +13,50 @@ type Tail<T extends any[]> = ((...args: T) => void) extends (
   ? U
   : never;
 
-type TMicroReducer<State> = {
-  [key: string]: (state: State, ...args: any[]) => State;
+type TMicroReducer<State, ReturnType> = {
+  [key: string]: (state: State, ...args: any[]) => ReturnType;
 };
+type TMicroReducerReturn<
+  State,
+  ReturnType,
+  R extends TMicroReducer<State, ReturnType>
+> = [
+  State,
+  {
+    [Key in keyof R]: (...x: Tail<Parameters<R[Key]>>) => ReturnType;
+  }
+];
+
+function useMicroReducer<State, R extends TMicroReducer<State, State>>(
+  actionReducers: R,
+  initialState?: State
+): TMicroReducerReturn<State, State, R>;
+
+function useMicroReducer<State, R extends TMicroReducer<State, void>>(
+  actionReducers: R,
+  initialState: State,
+  producer: TProduceFunc
+): TMicroReducerReturn<State, void, R>;
 
 // introduced generic R to allow proper infering
-export default function useMicroReducer<State, R extends TMicroReducer<State>>(
-  actionReducers: R,
-  initialState?: State,
-  producer?: TProduceFunc
-) {
-  const [state, _dispatch] = useReducer(
-    (
-      state: State,
-      action: { type: keyof typeof actionReducers; payload: any[] }
-    ) => {
-      const reducer = actionReducers[action.type];
+function useMicroReducer(actionReducers, initialState, producer?): any {
+  const [state, _dispatch] = useReducer((state, action) => {
+    const reducer = actionReducers[action.type];
 
-      if (producer) {
-        return producer(state, draft => reducer(draft, ...action.payload));
-      }
+    if (producer) {
+      return producer(state, draft => reducer(draft, ...action.payload));
+    }
 
-      return reducer(state, ...action.payload);
-    },
-    initialState
-  );
+    return reducer(state, ...action.payload);
+  }, initialState);
 
-  const dispatch: {
-    [Key in keyof R]: (...x: Tail<Parameters<R[Key]>>) => void;
-  } = {} as any;
+  const dispatch: any = {};
 
   for (let key in actionReducers) {
-    const reducer = actionReducers[key];
-    dispatch[key] = (...args: Parameters<typeof reducer>[1]) =>
-      _dispatch({ type: key, payload: args });
+    dispatch[key] = (...args: any[]) => _dispatch({ type: key, payload: args });
   }
 
-  return [state, dispatch] as [State, typeof dispatch];
+  return [state, dispatch];
 }
+
+export default useMicroReducer;
