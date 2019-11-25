@@ -16,9 +16,10 @@ npm i react-micro-reducer
 
 ## Demo
 
-I've made a Codesandbox to play around with useMicroReducer
+I've made a couple of Codesandboxes to play around with useMicroReducer
 
-- [Codesandbox](https://codesandbox.io/s/pedantic-sky-6se4w)
+- [Codesandbox](https://codesandbox.io/s/friendly-swartz-5hyyt)
+- [Codesandbox w/ immer](https://codesandbox.io/s/great-wind-5tfzk)
 
 ## Usage
 
