@@ -29,9 +29,9 @@
   },
   "homepage": "https://github.com/kasperpihl/react-micro-reducer#readme",
   "devDependencies": {
+    "@testing-library/react-hooks": "^3.2.1",
     "@types/jest": "^24.0.23",
     "@types/react": "^16.9.12",
-    "@types/react-test-renderer": "^16.9.1",
     "immer": "^5.0.0",
     "jest": "^24.9.0",
     "react": "^16.12.0",
