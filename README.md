@@ -9,8 +9,9 @@ useMicroReducer uses the standard useReducer under the hook 🎉
 Ohh, and it supports Immer 🎂
 
 
-<p align="center">
+<p>
     <a href="https://bundlephobia.com/result?p=react-micro-reducer"><img src="https://badgen.net/bundlephobia/min/react-micro-reducer" /></a>
+    <a href="https://bundlephobia.com/result?p=react-micro-reducer"><img src="https://badgen.net/bundlephobia/minzip/react-micro-reducer" /></a>
 </p>
 
 ## Installation
