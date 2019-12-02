@@ -1,6 +1,6 @@
 {
   "name": "react-micro-reducer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A React reducer hook, with a \"micro\"-reducer style, made for a Typescript world 💙",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
