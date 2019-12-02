@@ -1,5 +1,10 @@
 # Changelog react-micro-reducer ✅
 
+## 2.0.1
+
+- Added MicroReducerDispatch, MicroReducerState, MicroReducerReturn types
+- Removed MicroReducer type
+
 ## 2.0.0
 
 - Added: MicroReducer type export
