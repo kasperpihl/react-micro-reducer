@@ -10,7 +10,7 @@ const defaultReducer = (state: number) => ({
 });
 const defaultState = 0;
 
-const setupHook = <R,>(reducer, initialState?, producer?: ProduceFunc) =>
+const setupHook = (reducer, initialState?, producer?: ProduceFunc) =>
   renderHook(() => {
     const [state, dispatch] = useMicroReducer(reducer, initialState, producer);
     // Get out state and dispatch in a cleaner fashion
