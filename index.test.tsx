@@ -1,16 +1,16 @@
-import { useMicroReducer, TProduceFunc } from "./index";
+import { useMicroReducer, ProduceFunc } from "./index";
 import produce from "immer";
 import { renderHook, act } from "@testing-library/react-hooks";
 
-const defaultReducer = {
-  increment: state => state + 1,
-  decrement: state => state - 1,
-  set: (state, value) => value,
-  multiplySeed: (state, a, b) => a * b
-};
+const defaultReducer = (state: number) => ({
+  increment: () => state + 1,
+  decrement: () => state - 1,
+  set: (value: number) => value,
+  multiplySeed: (a: number, b: number) => a * b
+});
 const defaultState = 0;
 
-const setupHook = (reducer, initialState?, producer?: TProduceFunc) =>
+const setupHook = <R,>(reducer, initialState?, producer?: ProduceFunc) =>
   renderHook(() => {
     const [state, dispatch] = useMicroReducer(reducer, initialState, producer);
     // Get out state and dispatch in a cleaner fashion
@@ -21,7 +21,7 @@ const setupHook = (reducer, initialState?, producer?: TProduceFunc) =>
   });
 
 test("Initial state: undefined", () => {
-  const { result } = setupHook({});
+  const { result } = setupHook(() => ({}));
   expect(result.current.state).toBe(undefined);
 });
 
@@ -67,11 +67,11 @@ test("Dispatch with MULTIPLE arguments work", () => {
 });
 
 // Immer defaults
-const immerReducer = {
-  search: (draft, query1: string, query2: string) => {
+const immerReducer = (draft: typeof immerState) => ({
+  search: (query1: string, query2: string) => {
     draft.query = query1 + " " + query2;
   }
-};
+});
 const immerState = {
   query: ""
 };

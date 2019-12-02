@@ -8,7 +8,6 @@ useMicroReducer uses the standard useReducer under the hook 🎉
 
 Ohh, and it supports Immer 🎂
 
-
 <p>
     <a href="https://bundlephobia.com/result?p=react-micro-reducer"><img src="https://badgen.net/bundlephobia/min/react-micro-reducer" /></a>
     <a href="https://bundlephobia.com/result?p=react-micro-reducer"><img src="https://badgen.net/bundlephobia/minzip/react-micro-reducer" /></a>
@@ -35,12 +34,12 @@ import { useMicroReducer } from "react-micro-reducer";
 
 export default function App() {
   const [state, dispatch] = useMicroReducer(
-    {
+    state => ({
       reset: () => 0,
-      increment: (state, value: number) => state + value,
-      decrement: (state, value: number) => state - value,
-      multiply: (state, value: number) => state * value
-    },
+      increment: (value: number) => state + value,
+      decrement: (value: number) => state - value,
+      multiply: (value: number) => state * value
+    }),
     0
   );
 
@@ -67,12 +66,12 @@ import produce from "immer";
 
 export default function App() {
   const [state, dispatch] = useMicroReducer(
-    {
-      search: (draft, query: string) => {
+    state => ({
+      search: (query: string) => {
         // Draft is an immer draft object 🎉
         draft.query = query;
       }
-    },
+    }),
     {
       query: ""
     },

@@ -1,58 +1,48 @@
 import { useReducer, useMemo } from "react";
 
-export type TMicroDispatch<R extends TMicroReducer<any, any>> = {
-  [Key in keyof R]: (...x: Tail<Parameters<R[Key]>>) => void;
+type TMicroActions<ReturnType> = {
+  [key: string]: (...args: any[]) => ReturnType;
+};
+type TMicroDispatch<R extends TMicroActions<any>> = {
+  [Key in keyof R]: (...x: Parameters<R[Key]>) => void;
 };
 
-export type TProduceFunc = <State>(
+export type ProduceFunc = <State>(
   currentState: State,
   producer: (draftState: State) => void
 ) => State;
 
-// utility type constructor - remove first element of the array/tuple
-type Tail<T extends any[]> = ((...args: T) => void) extends (
-  head: any,
-  ...tail: infer U
-) => any
-  ? U
-  : never;
+export type MicroReducer<State, ReturnType = State> = (
+  state: State
+) => TMicroActions<ReturnType>;
 
-type TMicroReducer<State, ReturnType = State> = {
-  [key: string]: (state: State, ...args: any[]) => ReturnType;
-};
-type TMicroReducerReturn<
-  State,
-  ReturnType,
-  R extends TMicroReducer<State, ReturnType>
-> = [State, TMicroDispatch<R>];
-
-export function useMicroReducer<State, R extends TMicroReducer<State, State>>(
-  actionReducers: R,
+export function useMicroReducer<State, R extends TMicroActions<State>>(
+  microReducer: (state: State) => R,
   initialState?: State
-): TMicroReducerReturn<State, State, R>;
+): [State, TMicroDispatch<R>];
 
-export function useMicroReducer<State, R extends TMicroReducer<State, void>>(
-  actionReducers: R,
+export function useMicroReducer<State, R extends TMicroActions<void>>(
+  microReducer: (state: State) => R,
   initialState: State,
-  producer: TProduceFunc
-): TMicroReducerReturn<State, void, R>;
+  producer: ProduceFunc
+): [State, TMicroDispatch<R>];
 
 // introduced generic R to allow proper infering
-export function useMicroReducer(actionReducers, initialState, producer?): any {
+export function useMicroReducer(microReducer, initialState, producer?): any {
   const [state, _dispatch] = useReducer((state, action) => {
-    const reducer = actionReducers[action.type];
-
     if (producer) {
-      return producer(state, draft => reducer(draft, ...action.payload));
+      return producer(state, draft =>
+        microReducer(draft)[action.type](...action.payload)
+      );
     }
 
-    return reducer(state, ...action.payload);
+    return microReducer(state)[action.type](...action.payload);
   }, initialState);
 
   const dispatch = useMemo(() => {
     const dispatch: any = {};
 
-    for (let key in actionReducers) {
+    for (let key in microReducer()) {
       dispatch[key] = (...args: any[]) =>
         _dispatch({ type: key, payload: args });
     }
