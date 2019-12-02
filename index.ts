@@ -7,14 +7,27 @@ type TMicroDispatch<R extends TMicroActions<any>> = {
   [Key in keyof R]: (...x: Parameters<R[Key]>) => void;
 };
 
+type TMicroReducer<State, ReturnType = State> = (
+  state: State
+) => TMicroActions<ReturnType>;
+
+export type MicroReducerReturn<R extends TMicroReducer<any, any>> = [
+  MicroReducerState<R>,
+  MicroReducerDispatch<R>
+];
+
+export type MicroReducerState<R extends TMicroReducer<any, any>> = Parameters<
+  R
+>[0];
+
+export type MicroReducerDispatch<
+  R extends TMicroReducer<any, any>
+> = TMicroDispatch<ReturnType<R>>;
+
 export type ProduceFunc = <State>(
   currentState: State,
   producer: (draftState: State) => void
 ) => State;
-
-export type MicroReducer<State, ReturnType = State> = (
-  state: State
-) => TMicroActions<ReturnType>;
 
 export function useMicroReducer<State, R extends TMicroActions<State>>(
   microReducer: (state: State) => R,
