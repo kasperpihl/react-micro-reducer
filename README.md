@@ -66,7 +66,7 @@ import produce from "immer";
 
 export default function App() {
   const [state, dispatch] = useMicroReducer(
-    state => ({
+    draft => ({
       search: (query: string) => {
         // Draft is an immer draft object 🎉
         draft.query = query;
